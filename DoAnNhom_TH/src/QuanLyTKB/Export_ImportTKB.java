@@ -58,6 +58,7 @@ public class Export_ImportTKB {
 
 	@Test(priority = 2, dependsOnMethods = "AuthenTk")
 	public void ImportTKB() throws InterruptedException, AWTException {
+		
 		// Click vào button thời khóa biểu
 		driver.findElement(By.xpath("/html/body/div[2]/div[1]/div[2]/ul/li[4]/a")).click();
 		// Import thời khóa biểu

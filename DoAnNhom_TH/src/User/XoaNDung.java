@@ -67,7 +67,7 @@ public class XoaNDung {
 						+ "]/td[7]/a[2]"));
 		((JavascriptExecutor) driver).executeScript("arguments[0].click();", str);
 
-		Thread.sleep(5000);
+		Thread.sleep(3000);
 
 	}
 

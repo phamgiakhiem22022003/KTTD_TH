@@ -6,7 +6,9 @@ import Khiem.Authen;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 import org.testng.annotations.BeforeTest;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterTest;
@@ -46,14 +48,86 @@ public class KhoaHK {
 		Thread.sleep(2000);
 	}
 
-	@Test
-	public void f() {
+	@Test(priority = 2, dependsOnMethods = "AuthenTk")
+	public void addTerm() throws InterruptedException {
+		// Bấm nút Học Kỳ và Ngành
+		driver.findElement(By.xpath("//*[@id=\"main-menu-navigation\"]/li[2]/a/span")).click();
+		Thread.sleep(1000);
+		///Bấm nút tạo học kỳ
+		driver.findElement(By.xpath("/html/body/div[2]/div[2]/div[3]/div/section/div/div/div/div[2]/div/div/div[1]/div[2]/div/div[2]/button")).click();
+        Thread.sleep(1000);
+
+        //Nhập học kỳ 999
+        driver.findElement(By.xpath("/html/body/div[3]/div[2]/form/div[1]/input")).sendKeys("999");
+	}
+
+	@Test(priority = 3, dependsOnMethods = "addTerm")
+	// select year begins
+	public void selectYearBegins() throws InterruptedException {
+		Thread.sleep(1000);
+		driver.findElement(By.xpath("/html/body/div[3]/div[2]/form/div[2]/div/span/span[1]/span/span[1]")).click();
+		Thread.sleep(1000);
+		driver.findElement(By.xpath("/html/body/div[3]/div[2]/form/div[2]/div/span[2]/span/span[2]/ul/li[10]")).click();
+	}
+
+	@Test(priority = 4, dependsOnMethods = "selectYearBegins")
+	// select year ends
+	public void selectYearEnds() throws InterruptedException {
+		Thread.sleep(1000);
+		driver.findElement(By.xpath("/html/body/div[3]/div[2]/form/div[3]/div/span/span[1]/span/span[1]")).click();
+		Thread.sleep(1000);
+		driver.findElement(By.xpath("/html/body/div[3]/div[2]/form/div[3]/div/span[2]/span/span[2]/ul/li[14]")).click();
+	}
+
+	@Test(priority = 5, dependsOnMethods = "selectYearEnds")
+	// select week
+	public void selectWeek() throws InterruptedException {
+		WebElement week = driver.findElement(By.xpath("/html/body/div[3]/div[2]/form/div[4]/div/span[2]/button"));
+		for (int a = 0; a < 3; a++) {
+			week.click();
+			Thread.sleep(1000);
+		}
+	}
+
+	@Test(priority = 6, dependsOnMethods = "selectWeek")
+	// select days
+	public void selectDay() throws InterruptedException {
+		driver.findElement(By.xpath("/html/body/div[3]/div[2]/form/div[5]/input[2]")).click();
+		Thread.sleep(1000);
+		driver.findElement(By.xpath("/html/body/div[4]/div[1]/div/div/div/input")).clear();
+		Thread.sleep(1000);
+		driver.findElement(By.xpath("/html/body/div[4]/div[1]/div/div/div/input")).sendKeys("2023");
+		Thread.sleep(1000);
+		driver.findElement(By.xpath("/html/body/div[4]/div[2]/div/div[2]/div/span[18]")).click();
+	}
+
+	@Test(priority = 7, dependsOnMethods = "selectDay")
+	// select class maximum
+	public void selectClassMaximum() throws InterruptedException {
+		driver.findElement(By.xpath("/html/body/div[3]/div[2]/form/div[6]/div[1]/div/span[2]/button")).click();
+		Thread.sleep(1000);
+		WebElement element = driver
+				.findElement(By.xpath("/html/body/div[3]/div[2]/form/div[6]/div[2]/div/span[2]/button"));
+		for (int i = 0; i < 3; i++) {
+			Thread.sleep(1000);
+			element.click();
+		}
+	}
+
+	@Test(priority = 8, dependsOnMethods = "selectClassMaximum")
+	public void saveInfo() throws InterruptedException {
+		driver.findElement(By.xpath("/html/body/div[3]/div[2]/form/div[7]/button[2]")).click();
+		Thread.sleep(2000);
+	}
+
+	@Test(priority = 9, dependsOnMethods = "saveInfo")
+	public void Khoa() {
+		driver.findElement(By.xpath("/html/body/div[2]/div[2]/div[3]/div/section/div/div/div/div[2]/div/div/table/tbody/tr/td[8]/div/input")).click();
 	}
 
 	@AfterTest
 	public void afterTest() {
 		driver.close();
 	}
-
 
 }

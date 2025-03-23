@@ -43,85 +43,81 @@ public class CapNhatHK {
 		// Mở rộng cửa sổ trình duyệt
 		driver.manage().window().maximize();
 		Thread.sleep(2000);
-	}
-
-	@Test(priority = 1)
-	public void AuthenTk() throws InterruptedException {
-		// Gọi phương thức đăng nhập từ class Authen
+		
+		// Thực hiện đăng nhập
 		Authen.AuthenTK(driver);
 		Thread.sleep(2000);
 	}
 	
-	@Test (priority = 2, dependsOnMethods = "AuthenTk" )
-	public void HocKyvaNganh() throws InterruptedException {
-		// Tìm và click vào phần tử có xpath là
-		// "//*[@id=\"main-menu-navigation\"]/li[3]/a/span"
-		WebElement HK = driver.findElement(By.xpath("//*[@id=\"main-menu-navigation\"]/li[2]/a/span"));
-		HK.click();
-		Thread.sleep(2000);
-		//
-		Random RanND = new Random();
-		int stt = RanND.nextInt(10) + 1;
-		Thread.sleep(2000);
-		WebElement str = driver.findElement(By.xpath("/html/body/div[2]/div[2]/div[3]/div/section/div/div/div/div[2]/div/div/table/tbody/tr[" + stt + "]/td[9]/a[1]"));
-		((JavascriptExecutor) driver).executeScript("arguments[0].click();", str);
+	 @Test(priority = 1)
+	    public void updateHocKy() throws InterruptedException {
+	        driver.findElement(By.xpath("/html/body/div[2]/div[1]/div[2]/ul/li[2]/a")).click();
+	        Thread.sleep(2000);
 
-		Thread.sleep(5000);
+	        // button cập nhật
+	        driver.findElement(By.xpath("/html/body/div[2]/div[2]/div[3]/div/section/div/div/div/div[2]/div/div/table/tbody/tr[1]/td[9]/a[1]")).click();
+	        Thread.sleep(2000);
+	        // select năm bắt đầu
+	        driver.findElement(By.xpath("/html/body/div[3]/div[2]/form/div[2]/div/span/span[1]/span/span[2]")).click();
+	        Thread.sleep(2000);
+	        // select năm 2023
+	        driver.findElement(By.xpath("/html/body/div[3]/div[2]/form/div[2]/div/span[2]/span/span[2]/ul/li[10]")).click();
+	        Thread.sleep(2000);
+	        // select năm kết thúc
+	        driver.findElement(By.xpath("/html/body/div[3]/div[2]/form/div[3]/div/span/span[1]/span/span[2]")).click();
+	        Thread.sleep(2000);
+	        // select năm 2024
+	        driver.findElement(By.xpath("/html/body/div[3]/div[2]/form/div[3]/div/span[2]/span/span[2]/ul/li[10]")).click();
+	        Thread.sleep(2000);
+	        
+	    }
+	    @Test(priority = 2)
+	    public void batDau() throws InterruptedException {
+	        // chọn tuần bắt đầu
+	        WebElement week = driver.findElement(By.xpath("/html/body/div[3]/div[2]/form/div[4]/div/span[2]/button"));
+	        for (int a = 0; a < 3; a++) {
+	            week.click();
+	            Thread.sleep(1000);
+	            // chọn ngày tháng năm bắt đầu
+	            WebElement YearStart = driver.findElement(By.xpath("/html/body/div[3]/div[2]/form/div[5]/input[2]"));
+	            YearStart.click();
+	            Thread.sleep(2000);
+	            // xóa năm cũ
+	            driver.findElement(By.xpath("/html/body/div[4]/div[1]/div/div/div/input")).clear();
+	            Thread.sleep(2000);
+	            // chọn năm 2023
+	            WebElement Get2023 = driver.findElement(By.xpath("/html/body/div[4]/div[1]/div/div/div/input"));
+	            Get2023.sendKeys("2023");
+	            Thread.sleep(2000);
+	            // chon ngày
+	            WebElement Day = driver.findElement(By.xpath("/html/body/div[4]/div[2]/div/div[2]/div/span[15]"));
+	            Day.click();
+	            Thread.sleep(3000);
+//	            System.out.println(YearStart.getText());
+//	            System.out.println(Get2023.getText());
+//	            System.out.println(Day.getText());
+	            
+	        }
+	    }
+	    @Test(priority = 3)
+	    public void selectClassMaximum() throws InterruptedException {
+	        // Tiết tối đa
+	        Thread.sleep(1000);
+	        WebElement element = driver.findElement(By.xpath("/html/body/div[3]/div[2]/form/div[6]/div[1]/div/span[1]/button"));
+	        for (int i = 0; i < 3; i++) {
+	            Thread.sleep(1000);
+	            element.click();
+	        }
 
-	}
-
-	@Test (priority = 3, dependsOnMethods = "HocKyvaNganh" )
-	public void CapNhathocky() throws InterruptedException {
-		Thread.sleep(2000);
-		WebElement Page = driver.findElement(By.xpath(
-				"/html/body/div[2]/div[2]/div[3]/div/section/div/div/div/div[2]/div/div/div[2]/div[2]/div/ul/li[5]/a"));
-		((JavascriptExecutor) driver).executeScript("arguments[0].click();", Page);
-		//
-		Thread.sleep(2000);
-		Random RanND = new Random();
-		int stt = RanND.nextInt(10) + 1;
-		Thread.sleep(2000);
-		//
-
-		Thread.sleep(2000);
-		//
-		WebElement str = driver.findElement(
-				By.xpath("/html/body/div[2]/div[2]/div[3]/div/section/div/div/div/div[2]/div/div/table/tbody/tr[" + stt + "]/td[9]/a[1]"));
-		((JavascriptExecutor) driver).executeScript("arguments[0].click();", str);
-
-		Thread.sleep(3000);
-		
-		WebElement capnhat = driver.findElement(By.xpath("/html/body/div[2]/div[2]/div[3]/div/section/div/div/div/div[2]/div/div/table/tbody/tr[1]/td[9]/a[1]/i"));
-		((JavascriptExecutor) driver).executeScript("arguments[0].click();", capnhat);
-		
-		//Chọn Năm Bắt Đầu
-        WebElement dropdownNamBĐ = driver.findElement(By.xpath("//form/div[2]//span[contains(@class,'select2')]"));
-        dropdownNamBĐ.click();
-        Thread.sleep(2000);
-        driver.findElement(By.xpath("//li[contains(text(),'2024')]")).click();
-        
-        
-
-        //Chọn năm kết thức
-        WebElement dropdownNamKT = driver.findElement(By.xpath("//form/div[3]//span[contains(@class,'select2')]"));
-        dropdownNamBĐ.click();
-        Thread.sleep(2000);
-        driver.findElement(By.xpath("//li[contains(text(),'2025')]")).click();
-
-        
-        //Chọn ngày 
-        driver.findElement(By.xpath("/html/body/div[3]/div[2]/form/div[5]/input[2]")).click();
-        Thread.sleep(1000);
-        driver.findElement(By.xpath("/html/body/div[4]/div[1]/div/div/div/input")).clear();
-        Thread.sleep(1000);
-        driver.findElement(By.xpath("/html/body/div[4]/div[1]/div/div/div/input")).sendKeys("2025");
-        Thread.sleep(1000);
-        driver.findElement(By.xpath("/html/body/div[4]/div[2]/div/div[2]/div/span[18]")).click();
-        
-    }
-	
-	public void saveInfo() {
-        driver.findElement(By.xpath("//*[@id=\"term-form\"]/div[7]/button[2]")).click();
+	        // Tuần tối đa
+	        WebElement element1 = driver.findElement(By.xpath("/html/body/div[3]/div[2]/form/div[6]/div[2]/div/span[2]/button"));
+	        for (int i = 0; i < 3; i++) {
+	            Thread.sleep(1000);
+	            element1.click();
+	        }
+	        
+	       WebElement Luu = driver.findElement(By.xpath("/html/body/div[3]/div[2]/form/div[7]/button[2]"));
+	       Luu.click();
     }
 
 	@AfterTest

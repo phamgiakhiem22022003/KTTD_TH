@@ -1,18 +1,17 @@
-package QuanLyHK;
+package POM_QuanLyHocKy;
 
-import org.testng.annotations.Test;
-
-import Khiem.Authen;
-import io.github.bonigarcia.wdm.WebDriverManager;
-
-import org.testng.annotations.BeforeTest;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
-public class ThemHK_Rong {
+import Khiem.Authen;
+import Pages_QuanLyHocKy.Page_ThemHK_NamBDvaKTSai;
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class TC_YearBeginAndYearEnd {
 	public String baseUrl = "https://cntttest.vanlanguni.edu.vn:18081/Phancong02/";
 	String driverPath = "c:\\chromedriver.exe";
 	public WebDriver driver;
@@ -38,38 +37,25 @@ public class ThemHK_Rong {
 		// Mở rộng cửa sổ trình duyệt
 		driver.manage().window().maximize();
 		Thread.sleep(2000);
-	}
-
-	@Test(priority = 1)
-	public void AuthenTk() throws InterruptedException {
-		// Gọi phương thức đăng nhập từ class Authen
+		
+		// Thực hiện đăng nhập
 		Authen.AuthenTK(driver);
 		Thread.sleep(2000);
 	}
 
-	// Nhập học kỳ Rỗng
-	@Test(priority = 2, dependsOnMethods = "AuthenTk")
-	public void addTerm() throws InterruptedException {
-		// Bấm nút Học Kỳ và Ngành
-		driver.findElement(By.xpath("//*[@id=\"main-menu-navigation\"]/li[2]/a/span")).click();
-		Thread.sleep(1000);
+	@Test(priority = 1)
+    public void NgayBatDauKetThucSai() throws InterruptedException {
+		Page_ThemHK_NamBDvaKTSai NgayBatDauvaKetThuc = new Page_ThemHK_NamBDvaKTSai(driver);
 		
-		// Bấm nút tạo học kỳ
-		driver.findElement(By.xpath(
-				"/html/body/div[2]/div[2]/div[3]/div/section/div/div/div/div[2]/div/div/div[1]/div[2]/div/div[2]/button"))
-				.click();
-		Thread.sleep(1000);
-	}
+		NgayBatDauvaKetThuc.addTerm("999");
+		NgayBatDauvaKetThuc.selectYearBegins();
+		NgayBatDauvaKetThuc.selectYearEnds();
+		NgayBatDauvaKetThuc.selectWeek();
+		NgayBatDauvaKetThuc.saveTerm();
+    }
 
-	// Bấm lưu
-	@Test(priority = 3, dependsOnMethods = "addTerm")
-	public void saveInfo() {
-		driver.findElement(By.xpath("/html/body/div[3]/div[2]/form/div[7]/button[2]")).click();
-	}
-
-	@AfterTest
-	public void afterTest() {
-		driver.close();
-	}
-
+    @AfterTest
+    public void afterTest() {
+        driver.close();
+    }
 }

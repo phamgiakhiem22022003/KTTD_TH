@@ -55,6 +55,7 @@ public class TaoNguoiDung {
   	//click thêm người dùng
   	Thread.sleep(2000);
   	driver.findElement(By.xpath("/html/body/div[2]/div[2]/div[3]/div/section/div[2]/div[2]/div/div/div[1]/div[2]/div/div[2]/button")).click();
+  	
   	//nhập mã giảng viên
   	Thread.sleep(2000);
   	driver.findElement(By.xpath("/html/body/div[3]/div[2]/form/div[1]/input")).sendKeys("22022003");

@@ -1,8 +1,9 @@
-package QuanLyHK;
+package POM_QuanLyNganhHoc;
 
 import org.testng.annotations.Test;
 
 import Khiem.Authen;
+import Pages_QuanLyNganhHoc.Page_Nganh;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 import org.testng.annotations.BeforeTest;
@@ -12,7 +13,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterTest;
 
-public class ThemHK_Rong {
+public class TC_TaoNganhHocSai {
 	public String baseUrl = "https://cntttest.vanlanguni.edu.vn:18081/Phancong02/";
 	String driverPath = "c:\\chromedriver.exe";
 	public WebDriver driver;
@@ -38,33 +39,46 @@ public class ThemHK_Rong {
 		// Mở rộng cửa sổ trình duyệt
 		driver.manage().window().maximize();
 		Thread.sleep(2000);
-	}
-
-	@Test(priority = 1)
-	public void AuthenTk() throws InterruptedException {
-		// Gọi phương thức đăng nhập từ class Authen
+		
+		// Thực hiện đăng nhập
 		Authen.AuthenTK(driver);
 		Thread.sleep(2000);
 	}
 
-	// Nhập học kỳ Rỗng
-	@Test(priority = 2, dependsOnMethods = "AuthenTk")
-	public void addTerm() throws InterruptedException {
-		// Bấm nút Học Kỳ và Ngành
-		driver.findElement(By.xpath("//*[@id=\"main-menu-navigation\"]/li[2]/a/span")).click();
-		Thread.sleep(1000);
+	@Test(priority = 1)
+	public void addtermNganh() throws InterruptedException {
 		
-		// Bấm nút tạo học kỳ
-		driver.findElement(By.xpath(
-				"/html/body/div[2]/div[2]/div[3]/div/section/div/div/div/div[2]/div/div/div[1]/div[2]/div/div[2]/button"))
-				.click();
-		Thread.sleep(1000);
+		driver.findElement(By.xpath("/html/body/div[2]/div[1]/div[2]/ul/li[2]/a")).click();
+    	Thread.sleep(2000);
+   
+        //select ngành
+    	driver.findElement(By.xpath("/html/body/div[2]/div[2]/div[3]/div/section/div/div/div/div[2]/ul/li[2]/a")).click();
+    	Thread.sleep(2000);
+    	
+    	//add ngành mới
+    	driver.findElement(By.xpath("/html/body/div[2]/div[2]/div[3]/div/section/div/div/div/div[2]/div/div/div[1]/div[2]/div/div[2]/button")).click();
+    	Thread.sleep(2000);
 	}
-
-	// Bấm lưu
-	@Test(priority = 3, dependsOnMethods = "addTerm")
-	public void saveInfo() {
-		driver.findElement(By.xpath("/html/body/div[3]/div[2]/form/div[7]/button[2]")).click();
+	
+	@Test(priority = 2, dependsOnMethods = "AuthenTk")
+	public void MaNganh_Sai() throws InterruptedException {
+		
+		Page_Nganh Nganh = new Page_Nganh(driver);
+		Nganh.NhapNoiDung("Phạm Gia Khiêm", "Công nghệ thông tin", "CNTT");
+	}
+	
+	@Test(priority = 3, dependsOnMethods = "SaiMaNganh")
+	public void MaNganh_QuaKyTu() throws InterruptedException {
+		
+		Page_Nganh Nganh = new Page_Nganh(driver);
+		Nganh.NhapNoiDung("Phạm Gia KhiêmPhạm Gia KhiêmPhạm Gia KhiêmPhạm Gia KhiêmPhạm Gia Khiêm", "Công nghệ thông tin", "CNTT");
+	}
+	
+	@Test(priority = 4, dependsOnMethods = "SaiKyTu")
+	public void Rong() throws InterruptedException {
+		
+		Page_Nganh Nganh = new Page_Nganh(driver);
+		Nganh.NoiDungRong("", "", "");
 	}
 
 	@AfterTest

@@ -49,6 +49,7 @@ public class MaNganhQuaKytu {
 
 	@Test (priority = 2, dependsOnMethods = "AuthenTk")
 	public void QuaKyTuMaNganh() throws InterruptedException {
+		//Chọn Học Kỳ và Ngành
 		driver.findElement(By.xpath("/html/body/div[2]/div[1]/div[2]/ul/li[2]/a")).click();
     	Thread.sleep(2000);
    

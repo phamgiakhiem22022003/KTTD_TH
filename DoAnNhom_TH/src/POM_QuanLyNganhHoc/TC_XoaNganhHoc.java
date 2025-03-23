@@ -1,18 +1,18 @@
-package QuanLyHK;
+package POM_QuanLyNganhHoc;
 
 import org.testng.annotations.Test;
 
 import Khiem.Authen;
+import Pages_QuanLyNganhHoc.Page_XoaNganhHoc;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 import org.testng.annotations.BeforeTest;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterTest;
 
-public class ThemHK_Rong {
+public class TC_XoaNganhHoc {
 	public String baseUrl = "https://cntttest.vanlanguni.edu.vn:18081/Phancong02/";
 	String driverPath = "c:\\chromedriver.exe";
 	public WebDriver driver;
@@ -38,34 +38,24 @@ public class ThemHK_Rong {
 		// Mở rộng cửa sổ trình duyệt
 		driver.manage().window().maximize();
 		Thread.sleep(2000);
-	}
-
-	@Test(priority = 1)
-	public void AuthenTk() throws InterruptedException {
-		// Gọi phương thức đăng nhập từ class Authen
+		
+		// Thực hiện đăng nhập
 		Authen.AuthenTK(driver);
 		Thread.sleep(2000);
 	}
+	
+	@Test(priority = 1)
+    public void GoToNganhHoc() throws InterruptedException {
+		Page_XoaNganhHoc TrangNganhHoc = new Page_XoaNganhHoc(driver);
+		TrangNganhHoc.goToNganhHocPage();
+    }
 
-	// Nhập học kỳ Rỗng
-	@Test(priority = 2, dependsOnMethods = "AuthenTk")
-	public void addTerm() throws InterruptedException {
-		// Bấm nút Học Kỳ và Ngành
-		driver.findElement(By.xpath("//*[@id=\"main-menu-navigation\"]/li[2]/a/span")).click();
-		Thread.sleep(1000);
-		
-		// Bấm nút tạo học kỳ
-		driver.findElement(By.xpath(
-				"/html/body/div[2]/div[2]/div[3]/div/section/div/div/div/div[2]/div/div/div[1]/div[2]/div/div[2]/button"))
-				.click();
-		Thread.sleep(1000);
-	}
-
-	// Bấm lưu
-	@Test(priority = 3, dependsOnMethods = "addTerm")
-	public void saveInfo() {
-		driver.findElement(By.xpath("/html/body/div[3]/div[2]/form/div[7]/button[2]")).click();
-	}
+    @Test(priority = 2, dependsOnMethods = "GoToNganhHoc")
+    public void SelectAndDeleteNganh() throws InterruptedException {
+    	Page_XoaNganhHoc XoaNganhHoc = new Page_XoaNganhHoc(driver);
+    	XoaNganhHoc.selectRandomNganh();
+    	XoaNganhHoc.deleteRandomNganh();
+    }
 
 	@AfterTest
 	public void afterTest() {
